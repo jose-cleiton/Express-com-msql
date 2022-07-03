@@ -16,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/jose-cleiton/Express-com-msql/issues"
   },
-  "homepage": "https://github.com/jose-cleiton/Express-com-msql#readme"
+  "homepage": "https://github.com/jose-cleiton/Express-com-msql#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^18.0.1",
+    "eslint": "^6.8.0",
+    "eslint-config-trybe-backend": "^1.0.4",
+    "nodemon": "^2.0.18"
+  }
 }
