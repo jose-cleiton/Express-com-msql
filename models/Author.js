@@ -1,8 +1,9 @@
 // const mysql= require('mysql2/promise');
 const fs = require('../helprs/fs');
-const db = require('../model/db');
+const db = require('./db');
 
 const ID_NAO_ENCONTRADO = '<-- Id não encontrado -->';
+const GET_BY_ID = 'SELECT * FROM db.person WHERE id = ?';
 
 const get = async (req, res, next) => {
   try { 
@@ -15,7 +16,7 @@ const get = async (req, res, next) => {
    };
 
 const getById = async (req, res, next) => {
-  const sql = 'SELECT * FROM db.person WHERE id = ?';
+  const sql = GET_BY_ID;
   try {    
     const { id } = req.params;
     const [[items]] = await db.query(sql, [id]);
@@ -49,7 +50,7 @@ const getSearchByNameMaxPrice = async (req, res, next) => {
 
 const post = async (req, res, next) => {  
   const sqlInsert = 'INSERT INTO db.person (name, age, endereco) VALUES (?, ?, ?)';
-  const sqlGet = 'SELECT * FROM db.person WHERE id = ?';
+  const sqlGet = GET_BY_ID;
   try {
     const { name, age, endereco } = req.body;
     const [{ insertId }] = await db.query(sqlInsert, [name, age, endereco]);
@@ -61,7 +62,7 @@ const post = async (req, res, next) => {
 };
 
 const putById = async (req, res, next) => {
-  const sqlGet = 'SELECT * FROM db.person WHERE id = ?';
+  const sqlGet = GET_BY_ID;
   const sqlUpdate = 'UPDATE db.person SET name = ?, age = ?, endereco = ? WHERE id = ?';
  
   try {

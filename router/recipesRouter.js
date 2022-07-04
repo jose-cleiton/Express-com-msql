@@ -1,7 +1,7 @@
 const express = require('express');
 
 const routes = express.Router();
-const Author = require('../service/Author');
+const Author = require('../models/Author');
 const { authMiddleware } = require('../middleware');
 
 routes.use(authMiddleware);
