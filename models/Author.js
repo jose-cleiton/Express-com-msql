@@ -5,11 +5,22 @@ const db = require('./db');
 const ID_NAO_ENCONTRADO = '<-- Id não encontrado -->';
 const GET_BY_ID = 'SELECT * FROM db.person WHERE id = ?';
 
+const serialize = (data) => ({
+
+  id: data.id,
+  name: data.name,
+  age: data.age,
+  endereco: data.endereco,
+  createdAt: data.created_at,
+  updatedAt: data.updated_at,
+
+  });
+
 const get = async (req, res, next) => {
   try { 
     const [items] = await db.execute('SELECT * FROM db.person');
     console.table(items);
-    return res.status(200).json(items);
+    return res.status(200).json(items.map(serialize));
   } catch (error) {
     return next({ status: 500, message: error.message });
   }
