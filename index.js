@@ -10,6 +10,7 @@ app.use(bodyParser.json());
 app.use('/person', require('./router/recipesRouter'));
 
 app.use(errorHandler);
+console.clear();
 app.listen(port, start(port));
 
 // app.use((req, _res, next) => {

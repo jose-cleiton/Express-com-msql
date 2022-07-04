@@ -4,27 +4,28 @@ const db = require('../model/db');
 
 const ID_NAO_ENCONTRADO = '<-- Id não encontrado -->';
 
-const get = async (req, res) => {
-  const [items] = await db.execute('SELECT * FROM db.person');
-  console.log(items);
-  return res.status(200).json(items);
-};
+const get = async (req, res, next) => {
+  try { 
+    const [items] = await db.execute('SELECT * FROM db.person');
+    console.table(items);
+    return res.status(200).json(items);
+  } catch (error) {
+    return next({ status: 500, message: error.message });
+  }
+   };
 
-const getById = async (req, res, next) => {  
+const getById = async (req, res, next) => {
+  const sql = 'SELECT * FROM db.person WHERE id = ?';
   try {    
     const { id } = req.params;
-    const data = await fs.read();
-    const idExists = data.find((r) => r.id === Number(id));  
-      
-    if (!idExists) {
-      return next({ status: 404, message: ID_NAO_ENCONTRADO });     
+    const [[items]] = await db.query(sql, [id]);
+    if (items.length === 0) { 
+      return next({ status: 404, message: ID_NAO_ENCONTRADO });
     }
-    return res.status(200).json(idExists);    
+    return res.status(200).json(items);
   } catch (error) {
-    next(error);
+    return next({ status: 500, message: error.message });
   }
-  
-  next();
 };
 const getSearchByNameMaxPrice = async (req, res, next) => {
   try {
@@ -47,60 +48,54 @@ const getSearchByNameMaxPrice = async (req, res, next) => {
 };
 
 const post = async (req, res, next) => {  
+  const sqlInsert = 'INSERT INTO db.person (name, age, endereco) VALUES (?, ?, ?)';
+  const sqlGet = 'SELECT * FROM db.person WHERE id = ?';
   try {
     const { name, age, endereco } = req.body;
-    const data = await fs.read();
-    data.push({ 
-      id: data.length,
-      name, 
-      age, 
-      endereco });
-    await fs.write(data);
-    return res.status(201).json({ 
-      id: data.length,
-      name, 
-      age, 
-      endereco,
-    });
+    const [{ insertId }] = await db.query(sqlInsert, [name, age, endereco]);
+    const [[item]] = await db.query(sqlGet, [insertId]);
+    return res.status(201).json(item);
   } catch (error) {
     next(error);  
   }  
 };
 
 const putById = async (req, res, next) => {
-    try {
-      const { id } = req.params;
-        const { name, age, endereco } = req.body;
-        const data = await fs.read();
-        const recipeIndex = data.findIndex((r) => r.id === Number(id));
-        if (recipeIndex === -1) return next({ status: 404, message: '<-- Id não rncontrado -->' });
-        data[recipeIndex] = { 
-          id: Number(id),
-          name, 
-          age, 
-          endereco };
-        await fs.write(data);
-        return res.status(200).json(data[recipeIndex]);
-    } catch (error) {
-      next(error);
-    }  
-};
+  const sqlGet = 'SELECT * FROM db.person WHERE id = ?';
+  const sqlUpdate = 'UPDATE db.person SET name = ?, age = ?, endereco = ? WHERE id = ?';
+ 
+  try {
+    const id = Number(req.params.id);
+    const [[oldItem]] = await db.query(sqlGet, [id]);
+    if (!oldItem) {
+      return next({ status: 404, message: ID_NAO_ENCONTRADO });
+    }
+    const changes = req.body; 
+    const newItem = { ...oldItem, ...changes };
+    await db.query(sqlUpdate, [newItem.name, newItem.age, newItem.endereco, id]);
+    res.status(200).json(newItem);
+  } catch (error) {
+    next(error);
+  }
+};    
+
 const deleteById = async (req, res, next) => {
+  const sql = 'DELETE FROM db.person WHERE id = ?';
   try {
     const { id } = req.params;
-    const data = await fs.read();
-    const recipeIndex = data.findIndex((r) => r.id === Number(id));
-    if (recipeIndex === -1) return next({ status: 404, message: '<-- Id não rncontrado -->' });
-    data.splice(recipeIndex, 1);
-    await fs.write(data);
-    return res.status(204).json({ message: '<-- Id removido -->' });
+    const result = await db.query(sql, [id]);
+    const item = result[0];
+    if (item.affectedRows === 0) { 
+      return next({ status: 404, message: ID_NAO_ENCONTRADO });
+    }
+    return res.status(200).json({ message: '<-- Id deletado -->' });
   } catch (error) {
     next(error);
   }
 };
 const notFound = (req, res, next) => {
   try {
-    return next({ status: 404, message: ID_NAO_ENCONTRADO });
+    return next({ status: 404, message: '<-- Não encontrado -->' });
   } catch (error) {
     next(error);
   }

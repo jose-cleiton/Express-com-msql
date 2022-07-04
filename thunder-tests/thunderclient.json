@@ -36,11 +36,11 @@
     "colId": "485812cc-655f-4766-9470-b7a1c0892b0c",
     "containerId": "c8f89070-a25c-48d4-9fa6-d3127d682898",
     "name": "addPerson",
-    "url": "localhost:3000/recipes/1",
+    "url": "localhost:3000/person/1",
     "method": "GET",
     "sortNum": 20000,
     "created": "2022-07-04T00:28:43.810Z",
-    "modified": "2022-07-04T03:41:01.055Z",
+    "modified": "2022-07-04T10:10:57.669Z",
     "headers": [
       {
         "name": "username",
@@ -72,7 +72,7 @@
     "method": "PUT",
     "sortNum": 30000,
     "created": "2022-07-04T01:16:03.144Z",
-    "modified": "2022-07-04T03:54:21.089Z",
+    "modified": "2022-07-04T10:49:13.061Z",
     "headers": [
       {
         "name": "username",
@@ -90,7 +90,7 @@
     "params": [],
     "body": {
       "type": "json",
-      "raw": " {\n    \"name\": \"Mariana\",\n    \"age\": \"37\",\n    \"endereco\": \"Rua dos Bobos, 0\"\n  }",
+      "raw": " {\n    \"name\": \"Mariana Godoy\",\n    \"age\": \"37\",\n    \"endereco\": \"Rua dos Bobos, 0\"\n  }",
       "form": []
     },
     "tests": []
@@ -127,11 +127,11 @@
     "colId": "485812cc-655f-4766-9470-b7a1c0892b0c",
     "containerId": "c8f89070-a25c-48d4-9fa6-d3127d682898",
     "name": "removePerson",
-    "url": "localhost:3000/recipes/3",
+    "url": "localhost:3000/person/3",
     "method": "DELETE",
     "sortNum": 50000,
     "created": "2022-07-04T01:52:47.022Z",
-    "modified": "2022-07-04T03:15:25.732Z",
+    "modified": "2022-07-04T10:22:14.619Z",
     "headers": [
       {
         "name": "username",
@@ -158,7 +158,7 @@
     "method": "POST",
     "sortNum": 60000,
     "created": "2022-07-04T03:04:19.360Z",
-    "modified": "2022-07-04T03:52:26.864Z",
+    "modified": "2022-07-04T10:43:28.127Z",
     "headers": [
       {
         "name": "username",
@@ -176,7 +176,7 @@
     "params": [],
     "body": {
       "type": "json",
-      "raw": " {\n    \"name\": \"Cleonice\",\n    \"age\": \"37\",\n    \"endereco\": \"Cana Brava\"\n  }",
+      "raw": " {\n    \"name\": \"Kaunane\",\n    \"age\": \"22\",\n    \"endereco\": \"Centro\"\n  }",
       "form": []
     },
     "tests": []

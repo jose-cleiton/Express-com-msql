@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `person` (
   `age` int NOT NULL,
   `endereco` varchar(255) NOT NULL, 
   `created_at` DATETIME(3) NOT NULL DEFAULT now(3),
-  `updated_at` DATETIME(3)  ON  UPDATE CURRENT_TIMESTAMP(3),
+  `updated_at` DATETIME(3)  ON  UPDATE now(3),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
