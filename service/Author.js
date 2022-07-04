@@ -1,13 +1,13 @@
+// const mysql= require('mysql2/promise');
 const fs = require('../helprs/fs');
+const db = require('../model/db');
 
 const ID_NAO_ENCONTRADO = '<-- Id não encontrado -->';
 
-const get = async (req, res, next) => {
-      const data = await fs.read();
-      if (data.length === 0) {
-        return next({ status: 404, message: '<-- Dados inexistentes -->' });
-      }
-      return res.status(200).json(data);
+const get = async (req, res) => {
+  const [items] = await db.execute('SELECT * FROM db.person');
+  console.log(items);
+  return res.status(200).json(items);
 };
 
 const getById = async (req, res, next) => {  
