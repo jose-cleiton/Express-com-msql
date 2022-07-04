@@ -3,7 +3,7 @@ FROM node
 # cria uma pasta onde serão armazenados os arquivos do projeto
 WORKDIR /app
 # copia o arquivo de configuração do projeto para a pasta do container
-COPY package.json .
+COPY package.json package-lock.json 
 # copia o arquivo de script do projeto para a pasta do container
 COPY . .
 # executa o comando npm install para instalar os dependências do projeto
